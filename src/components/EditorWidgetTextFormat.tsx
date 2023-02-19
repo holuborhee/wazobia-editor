@@ -13,7 +13,7 @@ import { BsBlockquoteLeft } from "react-icons/bs";
 function EditorWidgetTextFormat() {
 
   return (
-    <div className="w-full md:w-4/6 rounded border-[#E7F1E9] border-[1px] flex bg-white justify-between px-1 mt-4">
+    <div className="w-full md:w-5/6 lg:w-4/6 rounded border-[#E7F1E9] border-[1px] flex bg-white justify-between px-1 mt-4">
       <select className="w-2/12 text-xs border-[#E7F1E9] border-r-[1px] outline-0">
         <option>Paragraph</option>
         <option>Heading 1</option>
@@ -51,7 +51,7 @@ function ButtonGroup({children, className}: ButtonGroupProps) {
 }
 
 interface ButtonGroupProps {
-  children?: React.ReactNode;
+  children: React.ReactNode;
   className?: string;
 }
 
