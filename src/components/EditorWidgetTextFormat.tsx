@@ -10,7 +10,7 @@ import { HiListBullet } from "react-icons/hi2";
 import { BsListOl } from "react-icons/bs";
 import { BsBlockquoteLeft } from "react-icons/bs";
 
-function EditorWidgetTextFormat() {
+function EditorWidgetTextFormat({onFormatChanged}: {onFormatChanged: (arg0: FormatOptions) => void}) {
 
   return (
     <div className="w-full md:w-5/6 lg:w-4/6 rounded border-[#E7F1E9] border-[1px] flex bg-white justify-between px-1 mt-4">
@@ -29,12 +29,12 @@ function EditorWidgetTextFormat() {
         <button><TfiAlignCenter /></button>
       </ButtonGroup>
       <ButtonGroup className="w-2/12 border-r-[1px]">
-        <button><BiBold /></button>
-        <button><BiItalic /></button>
+        <button onClick={() => onFormatChanged(FormatOptions.BOLD)}><BiBold /></button>
+        <button onClick={() => onFormatChanged(FormatOptions.ITALIC)}><BiItalic /></button>
       </ButtonGroup>
       <ButtonGroup className="w-3/12">
-        <button><HiListBullet /></button>
-        <button><BsListOl /></button>
+        <button onClick={() => onFormatChanged(FormatOptions.insertUnorderedList)}><HiListBullet /></button>
+        <button onClick={() => onFormatChanged(FormatOptions.insertOrderedList)}><BsListOl /></button>
         <button><BsBlockquoteLeft /></button>
       </ButtonGroup>
     </div>
@@ -54,5 +54,8 @@ interface ButtonGroupProps {
   children: React.ReactNode;
   className?: string;
 }
+
+export enum FormatOptions { BOLD, ITALIC, insertUnorderedList, insertOrderedList }
+
 
 export default EditorWidgetTextFormat;

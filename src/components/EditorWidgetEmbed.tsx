@@ -4,13 +4,18 @@ import { AiFillPicture } from "react-icons/ai";
 import { TiVideo } from "react-icons/ti";
 import { IoShareSocialSharp } from "react-icons/io5";
 
-function EditorWidgetEmbed({ positionY }: EditorWidgetEmbedProps) {
+function EditorWidgetEmbed({ positionY, onEmbedChoice }: EditorWidgetEmbedProps) {
 
   const [showItems, setShowItems] = useState(false);
 
   useEffect(() => {
     setShowItems(false)
   }, [positionY])
+
+  function handleWidgetChoiceClicked(choice: "PICTURE" | "VIDEO" | "SOCIAL") {
+    setShowItems(false);
+    onEmbedChoice(choice);
+  }
 
   return (
     <>
@@ -19,32 +24,41 @@ function EditorWidgetEmbed({ positionY }: EditorWidgetEmbedProps) {
       </button>
       <div className="bg-white rounded border-[1px] shadow absolute mt-10 w-72" style={{top: `${positionY}px`, display: `${showItems ? 'block' : 'none'}`}}>
         <h6>EMBED</h6>
-        <EditorWidgetEmbedItem title="Picture" description="Jpeg, png" icon={<AiFillPicture />} />
-        <EditorWidgetEmbedItem title="Video" description="JW player, Youtube, Vimeo" icon={<TiVideo />} />
-        <EditorWidgetEmbedItem title="Social" description="Instagram, Twitter, TikTok, Snapchat, Facebook" icon={<IoShareSocialSharp />} />
+        <EditorWidgetEmbedItem handleClick={handleWidgetChoiceClicked} itemKey="PICTURE" description="Jpeg, png" icon={<AiFillPicture />} />
+        <EditorWidgetEmbedItem handleClick={handleWidgetChoiceClicked} disabled itemKey="VIDEO" description="JW player, Youtube, Vimeo" icon={<TiVideo />} />
+        <EditorWidgetEmbedItem handleClick={handleWidgetChoiceClicked} disabled itemKey="SOCIAL" description="Instagram, Twitter, TikTok, Snapchat, Facebook" icon={<IoShareSocialSharp />} />
       </div>
     </>
   );
 }
 
-function EditorWidgetEmbedItem({ title, description, icon }: EditorWidgetEmbedItemProps) {
+function EditorWidgetEmbedItem({ itemKey, description, icon, disabled, handleClick }: EditorWidgetEmbedItemProps) {
 
   return (
-    <div className="hover:bg-[#FAFAFA] cursor-pointer text-xs p-3">
-      <h5 className="flex items-center">{icon} <span>{title}</span></h5>
+    <button disabled={disabled} onClick={() => handleClick(itemKey)} className="disabled:text-gray-600 hover:bg-[#FAFAFA] disabled:cursor-not-allowed cursor-pointer text-xs p-3 block w-full">
+      <h5 className="flex items-center">{icon} <span>{EmbedOptions[itemKey]}</span></h5>
       <small>{description}</small>
-    </div>
+    </button>
   );
 }
 
-interface EditorWidgetEmbedProps {
+type EditorWidgetEmbedProps = {
   positionY?: Number;
+  onEmbedChoice: (choice: "PICTURE" | "VIDEO" | "SOCIAL") => void;
 }
 
-interface EditorWidgetEmbedItemProps {
-  title: String;
-  description: String;
+type EditorWidgetEmbedItemProps = {
+  itemKey: "PICTURE" | "VIDEO" | "SOCIAL";
+  description: string;
   icon: React.ReactNode;
+  disabled?: boolean;
+  handleClick: (title: "PICTURE" | "VIDEO" | "SOCIAL") => void;
+}
+
+export enum EmbedOptions {
+  PICTURE= "Picture",
+  VIDEO= "Video",
+  SOCIAL= "Social"
 }
 
 
